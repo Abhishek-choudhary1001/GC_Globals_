@@ -205,7 +205,7 @@ export default function LiquidNav({
       {mounted && (
         <svg
           ref={svgRef}
-          className="pointer-events-none absolute left-0 top-0 z-0 w-full"
+          className="pointer-events-none absolute left-0 top-0 w-full"
           style={{ height: containerHeight, overflow: 'visible' }}
           preserveAspectRatio="none"
         >
@@ -246,7 +246,7 @@ export default function LiquidNav({
       )}
 
       {/* Nav items */}
-      <div className="relative z-10 flex items-center gap-0.5">
+      <div className="relative flex items-center gap-0.5">
         {items.map((item, i) => (
           <div
             key={i}

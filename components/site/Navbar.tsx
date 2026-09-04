@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Menu, X, ArrowRight, Home, Info, Briefcase, Cpu,
   FolderKanban, UserRound, Phone, LogIn, Sparkles
@@ -34,6 +34,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const servicesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -50,6 +51,11 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    setServicesOpen(false);
+    setHoveredIndex(null);
+  }, [pathname]);
+
   const activeIndex = useMemo(() => {
     const match = navLinks.findIndex((link) =>
       link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
@@ -64,6 +70,7 @@ export default function Navbar() {
       <Link
         key={link.label}
         href={link.href}
+        prefetch
         className="relative flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium transition-all duration-300"
         style={{
           color: isHovered || isActive ? '#7dd3fc' : 'rgba(255,255,255,0.65)',
@@ -100,18 +107,15 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="group flex items-center gap-2.5 shrink-0">
             <Image
-              src="/Logo_1.png"
+              src="/logo2.png"
               alt="GC Globals"
-              width={36}
-              height={36}
+              width={44}
+              height={44}
               className="rounded-lg transition-transform duration-300 group-hover:scale-105"
             />
-            <span className="font-display text-lg font-bold tracking-tight text-white">
-              GC <span className="text-sky-400">Globals</span>
-            </span>
           </Link>
 
-          {/* Desktop liquid nav */}
+          {/* Desktop nav */}
           <div className="hidden lg:block relative">
             <LiquidNav
               items={navItems}
@@ -123,15 +127,16 @@ export default function Navbar() {
               }}
             />
 
-            {/* Services dropdown */}
+            {/* Services dropdown — anchored under Services item */}
             <AnimatePresence>
               {servicesOpen && hoveredIndex === 2 && (
                 <motion.div
+                  ref={servicesRef}
                   initial={{ opacity: 0, y: 8, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-1 w-64 rounded-xl border border-sky-400/20 bg-[#0a0f1c] p-2 shadow-2xl shadow-black/60"
+                  className="absolute top-full left-0 mt-1 w-64 rounded-xl border border-sky-400/20 bg-[#0a0f1c] p-2 shadow-2xl shadow-black/60"
                   onMouseEnter={() => setServicesOpen(true)}
                   onMouseLeave={() => { setServicesOpen(false); setHoveredIndex(null); }}
                 >
@@ -139,6 +144,7 @@ export default function Navbar() {
                     <Link
                       key={child.href}
                       href={child.href}
+                      prefetch
                       className="block rounded-lg px-3 py-2.5 text-sm text-white/60 transition-all hover:bg-sky-400/10 hover:text-sky-300 hover:translate-x-1"
                     >
                       {child.label}
@@ -153,6 +159,7 @@ export default function Navbar() {
           <div className="hidden items-center gap-3 lg:flex shrink-0">
             <Link
               href="/login"
+              prefetch
               className="flex items-center gap-1.5 text-sm font-medium text-white/60 transition-colors hover:text-sky-300"
             >
               <LogIn className="h-3.5 w-3.5" />
@@ -161,6 +168,7 @@ export default function Navbar() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
                 href="/request-consultation"
+                prefetch
                 className="group relative flex items-center gap-1.5 overflow-hidden rounded-full bg-gradient-to-r from-sky-400 to-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition-all hover:shadow-sky-500/50"
               >
                 <span className="relative z-10 flex items-center gap-1.5">
@@ -196,18 +204,13 @@ export default function Navbar() {
             <div className="absolute inset-0 bg-[#06090f]/98 backdrop-blur-xl" />
             <div className="relative flex h-full flex-col">
               <div className="flex items-center justify-between px-6 py-4">
-                <div className="flex items-center gap-2.5">
-                  <Image
-                    src="/Logo_1.png"
-                    alt="GC Globals"
-                    width={32}
-                    height={32}
-                    className="rounded-lg"
-                  />
-                  <span className="font-display text-lg font-bold text-white">
-                    GC <span className="text-sky-400">Globals</span>
-                  </span>
-                </div>
+                <Image
+                  src="/logo2.png"
+                  alt="GC Globals"
+                  width={40}
+                  height={40}
+                  className="rounded-lg"
+                />
                 <button
                   className="flex h-10 w-10 items-center justify-center rounded-lg text-white"
                   onClick={() => setMobileOpen(false)}

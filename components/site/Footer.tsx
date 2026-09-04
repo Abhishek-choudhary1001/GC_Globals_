@@ -38,15 +38,12 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2.5">
               <Image
-                src="/Logo_1.png"
+                src="/logo2.png"
                 alt="GC Globals"
-                width={36}
-                height={36}
+                width={44}
+                height={44}
                 className="rounded-lg"
               />
-              <span className="font-display text-lg font-bold text-white">
-                GC <span className="text-sky-400">Globals</span>
-              </span>
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/40">
               US-managed technology, accounting, and staffing services. India-based delivery

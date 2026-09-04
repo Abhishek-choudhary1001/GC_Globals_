@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { supabase } from '@/lib/supabase-client';
 import { toast } from 'sonner';
@@ -13,7 +14,7 @@ export default function ForgotPasswordPage() {
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -23,8 +24,8 @@ export default function ForgotPasswordPage() {
       if (error) throw error;
       setSent(true);
       toast.success('Password reset link sent to your email.');
-    } catch (err: any) {
-      toast.error(err.message || 'Failed to send reset email.');
+    } catch {
+      toast.error('Failed to send reset email. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -44,13 +45,8 @@ export default function ForgotPasswordPage() {
         className="relative z-10 w-full max-w-md"
       >
         <div className="rounded-2xl border border-sky-400/20 bg-white/5 p-8 backdrop-blur-xl">
-          <Link href="/" className="mb-8 flex items-center justify-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-sky-400 to-sky-600">
-              <span className="font-display text-lg font-bold text-white">GC</span>
-            </div>
-            <span className="font-display text-xl font-bold text-white">
-              GC <span className="text-sky-400">Globals</span>
-            </span>
+          <Link href="/" className="mb-8 flex items-center justify-center">
+            <Image src="/logo2.png" alt="GC Globals" width={56} height={56} className="rounded-xl" />
           </Link>
 
           {sent ? (
@@ -73,37 +69,36 @@ export default function ForgotPasswordPage() {
                 <div>
                   <label className="mb-1.5 block text-sm font-medium text-white/70">Email</label>
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-white/30" />
+                    <Mail className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="w-full rounded-xl border border-white/10 bg-white/5 py-3 pl-11 pr-4 text-sm text-white outline-none transition-all focus:border-sky-400/50 focus:ring-2 focus:ring-sky-400/20"
                       placeholder="you@example.com"
+                      className="w-full rounded-xl border border-white/10 bg-white/5 py-3.5 pl-11 pr-4 text-sm text-white outline-none transition focus:border-sky-400/60 focus:ring-2 focus:ring-sky-400/15"
                     />
                   </div>
                 </div>
                 <motion.button
                   type="submit"
                   disabled={loading}
-                  whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 to-sky-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/25 disabled:opacity-50"
+                  className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-sky-400 to-sky-600 py-3.5 text-sm font-semibold text-white shadow-lg shadow-sky-500/20 transition hover:shadow-sky-500/40 disabled:opacity-50"
                 >
                   {loading ? (
                     <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="h-5 w-5 rounded-full border-2 border-white/30 border-t-white" />
                   ) : (
                     <>
                       Send Reset Link
-                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </>
                   )}
                 </motion.button>
               </form>
 
               <p className="mt-6 text-center text-sm text-white/50">
-                <Link href="/login" className="text-sky-400/80 hover:text-sky-400 transition-colors">← Back to login</Link>
+                <Link href="/login" className="text-sky-400 hover:text-sky-300 transition-colors">← Back to login</Link>
               </p>
             </>
           )}

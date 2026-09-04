@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabase-client';
 import { Loader2 } from 'lucide-react';
 
@@ -48,6 +50,9 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
+          <Link href="/" className="mb-2 inline-block">
+            <Image src="/logo2.png" alt="GC Globals" width={48} height={48} className="rounded-xl" />
+          </Link>
           <div className="flex items-center gap-3 mb-2">
             <span className="rounded-full bg-sky-400/20 px-3 py-1 text-xs font-semibold text-sky-400">
               {profile?.role?.toUpperCase() || 'EMPLOYEE'}

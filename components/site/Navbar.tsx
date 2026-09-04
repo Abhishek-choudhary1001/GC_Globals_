@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useMemo } from 'react';
 import {
@@ -49,7 +50,6 @@ export default function Navbar() {
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
-  // Determine active nav index from pathname
   const activeIndex = useMemo(() => {
     const match = navLinks.findIndex((link) =>
       link.href === '/' ? pathname === '/' : pathname.startsWith(link.href)
@@ -57,7 +57,6 @@ export default function Navbar() {
     return match === -1 ? 0 : match;
   }, [pathname]);
 
-  // Build nav items for LiquidNav
   const navItems = navLinks.map((link, i) => {
     const isActive = i === activeIndex;
     const isHovered = hoveredIndex === i;
@@ -65,9 +64,10 @@ export default function Navbar() {
       <Link
         key={link.label}
         href={link.href}
-        className="relative flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium transition-colors duration-300"
+        className="relative flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium transition-all duration-300"
         style={{
           color: isHovered || isActive ? '#7dd3fc' : 'rgba(255,255,255,0.65)',
+          transform: isHovered ? 'translateY(-1px)' : 'translateY(0)',
         }}
       >
         <link.icon className="h-3.5 w-3.5" />
@@ -99,15 +99,13 @@ export default function Navbar() {
         <nav className="mx-auto flex max-w-7xl items-center justify-between px-6">
           {/* Logo */}
           <Link href="/" className="group flex items-center gap-2.5 shrink-0">
-            <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-sky-400 to-sky-600">
-              <span className="font-display text-lg font-bold text-white">GC</span>
-              <motion.div
-                className="absolute inset-0 bg-white/20"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '100%' }}
-                transition={{ duration: 0.6 }}
-              />
-            </div>
+            <Image
+              src="/Logo_1.png"
+              alt="GC Globals"
+              width={36}
+              height={36}
+              className="rounded-lg transition-transform duration-300 group-hover:scale-105"
+            />
             <span className="font-display text-lg font-bold tracking-tight text-white">
               GC <span className="text-sky-400">Globals</span>
             </span>
@@ -198,9 +196,18 @@ export default function Navbar() {
             <div className="absolute inset-0 bg-[#06090f]/98 backdrop-blur-xl" />
             <div className="relative flex h-full flex-col">
               <div className="flex items-center justify-between px-6 py-4">
-                <span className="font-display text-lg font-bold text-white">
-                  GC <span className="text-sky-400">Globals</span>
-                </span>
+                <div className="flex items-center gap-2.5">
+                  <Image
+                    src="/Logo_1.png"
+                    alt="GC Globals"
+                    width={32}
+                    height={32}
+                    className="rounded-lg"
+                  />
+                  <span className="font-display text-lg font-bold text-white">
+                    GC <span className="text-sky-400">Globals</span>
+                  </span>
+                </div>
                 <button
                   className="flex h-10 w-10 items-center justify-center rounded-lg text-white"
                   onClick={() => setMobileOpen(false)}

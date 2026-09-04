@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Mail, Phone, MapPin, Linkedin, Twitter, Github } from 'lucide-react';
 
 const footerLinks = {
@@ -36,9 +37,13 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-sky-400 to-sky-600">
-                <span className="font-display text-lg font-bold text-white">GC</span>
-              </div>
+              <Image
+                src="/Logo_1.png"
+                alt="GC Globals"
+                width={36}
+                height={36}
+                className="rounded-lg"
+              />
               <span className="font-display text-lg font-bold text-white">
                 GC <span className="text-sky-400">Globals</span>
               </span>
